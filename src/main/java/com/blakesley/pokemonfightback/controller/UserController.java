@@ -31,15 +31,20 @@ public class UserController {
         return this.userService.getUserByUsername(username);
     }
 
+    @GetMapping("/getScore/{username}")
+    public Integer getScoreByUsername(@PathVariable("username") String username){
+        return this.userService.getScoreByUsername(username);
+    }
+
     @PostMapping("/create")
     public User createNewUser(@RequestBody User user){
 
         return this.userService.createNewUser(user);
     }
 
-    @PutMapping("/update")
-    public User updateUserScore(@RequestBody User user){
-        return this.userService.updateUserScore(user);
+    @PutMapping("/update/{username}/{score}")
+    public User updateUserScore(@PathVariable("username") String username, @PathVariable("score") Integer score){
+        return this.userService.updateUserScore(username, score);
     }
 
     @DeleteMapping("/delete/{username}")
@@ -68,5 +73,8 @@ public class UserController {
     public void logout(HttpSession session){
         this.userService.logout(session);
     }
+
+    @GetMapping("/get")
+    public String getCurrentUser(HttpSession session){ return this.userService.getCurrentUser(session); }
 
 }

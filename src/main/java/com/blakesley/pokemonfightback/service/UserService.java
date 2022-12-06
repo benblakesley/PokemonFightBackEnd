@@ -35,9 +35,7 @@ public class UserService {
 
     }
 
-    public User updateUserScore(User user) {
-        String username = user.getUsername();
-        Integer score = user.getScore();
+    public User updateUserScore(String username, Integer score) {
        Optional<User> optionalOfUser = this.userRepo.findByUsername(username);
        if(optionalOfUser.isEmpty()){
            return null;
@@ -102,5 +100,30 @@ public class UserService {
 
     public void logout(HttpSession session) {
         session.invalidate();
+    }
+
+    public String getCurrentUser(HttpSession session) {
+        if(session.getAttribute("user")==null){
+            return "";
+        }
+        else{
+            User user = (User) session.getAttribute("user");
+            String username = user.getUsername();
+            return username;
+        }
+    }
+
+    public Integer getScoreByUsername(String username) {
+        Optional<User> userOptional = this.userRepo.findByUsername(username);
+        if(userOptional.isEmpty()){
+            return 0;
+        }
+        User user = userOptional.get();
+        Integer userScore = user.getScore();
+        if(userScore==null){
+            return 0;
+        }
+        return userScore;
+
     }
 }

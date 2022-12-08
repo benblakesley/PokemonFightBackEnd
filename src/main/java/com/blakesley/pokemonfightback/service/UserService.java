@@ -77,10 +77,6 @@ public class UserService {
 
     public String createSession(User user, HttpSession session){
         String username = user.getUsername();
-        String password = user.getPassword();
-        if (this.checkCredentials(username, password)==false) {
-            return "";
-        }
         User userInDb = this.userRepo.findByUsername(username).get();
         session.setAttribute("user", userInDb);
         return username;

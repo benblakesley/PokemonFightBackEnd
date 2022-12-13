@@ -1,6 +1,8 @@
 package com.blakesley.pokemonfightback.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

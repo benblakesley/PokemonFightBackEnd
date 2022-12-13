@@ -4,12 +4,13 @@ import com.blakesley.pokemonfightback.model.User;
 import com.blakesley.pokemonfightback.repository.UserRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -51,6 +52,17 @@ public class UserService {
         return (List<User>) this.userRepo.findAll();
     }
 
+    public List<User> getAllWithoutPasswords(){
+        List<User> allUsers = this.userRepo.findAll();
+
+        allUsers.forEach(user -> {
+            user.setPassword("fakePassword");
+        });
+
+        return allUsers;
+
+    }
+
     public User deleteUser(String username) {
         Optional<User> userToDeleteOptional = this.userRepo.findByUsername(username);
         if(userToDeleteOptional.isEmpty()){
@@ -71,7 +83,7 @@ public class UserService {
             return true;          // check is entered password is the same as user's password
         }
         else{
-            return false;        // return null if passwords dont match
+            return false;        // return false if passwords dont match
         }
     }
 
@@ -122,4 +134,6 @@ public class UserService {
         return userScore;
 
     }
+
+
 }
